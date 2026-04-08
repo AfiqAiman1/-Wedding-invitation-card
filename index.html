@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Iman &amp; Hakim</title>
+  <meta name="description" content="Jemputan majlis perkahwinan Hazim &amp; Ain" />
+  <link rel="icon" href="assets/img/Logo.png" type="image/png">
+
+  <meta property="og:title" content="Walimatulurus Iman & Hakim | Sabtu 23 Mei 2026" />
+  <meta property="og:description" content="Tekan link untuk lihat jemputan" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Dancing+Script:wght@400;600;700&family=EB+Garamond:wght@400;500;600&family=Great+Vibes&family=Italianno&family=Pinyon+Script&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <div class="glassdoor" id="glassdoor" aria-label="Pintu kaca">
+    <video class="glassdoor__video" muted loop autoplay playsinline webkit-playsinline preload="auto" aria-hidden="true">
+      <source src="assets/Vid/Kad Kahwin.mp4" type="video/mp4" />
+    </video>
+    <div class="glassdoor__panels" aria-hidden="true">
+      <div class="glassdoor__panel glassdoor__panel--left"></div>
+      <div class="glassdoor__panel glassdoor__panel--right"></div>
+    </div>
+
+    <button class="glassdoor__btn" id="openInvite" type="button" aria-controls="jemputan" aria-label="Buka jemputan">
+      <img class="glassdoor__logoBack" src="assets/img/LogoBack.png" alt="" />
+      <img class="glassdoor__logo" src="assets/img/Logo.png" alt="" />
+    </button>
+  </div>
+
+  <main id="jemputan" class="main">
+    <section class="cardcover" aria-label="Cover jemputan">
+      <video class="cardcover__video" muted loop autoplay playsinline webkit-playsinline preload="auto">
+        <source src="assets/Vid/Kad Kahwin.mp4" type="video/mp4" />
+      </video>
+    </section>
+
+    <section class="section hero" aria-label="Ucapan jemputan">
+      <div class="container">
+        <div class="card hero__card">
+          <div class="hero__overlay"></div>
+          <p class="hero__salam" data-reveal>بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+          <p class="hero__salam hero__salam--pinyon" data-reveal>Assalamualaikum W.B.T</p>
+
+          <div class="hero__spacer"></div>
+
+          <div class="hero__parents" role="group" aria-label="Nama ibu bapa">
+            <p class="hero__parent" data-reveal>AHMAD NASARUDDIN BIN SALAM</p>
+            <p class="hero__parent" data-reveal>&amp;</p>
+            <p class="hero__parent" data-reveal>NORSILAWATI BINTI HAJI DAN</p>
+          </div>
+
+          <div data-reveal>
+            <p class="hero__invite">Dengan segala hormatnya menjemput</p>
+            <p class="hero__guest">Dato' | Datin | Tuan | Puan | Encik | Cik</p>
+            <p class="hero__invite">hadir ke majlis perkahwinan puteri kami</p>
+          </div>
+
+          <div class="hero__spacer"></div>
+
+          <h2 class="hero__couple">
+            <span data-reveal>
+              <span class="hero__coupleName hero__salam--pinyon">Iman Sarah</span>
+              <span class="hero__coupleSub">Ahmad Nasaruddin</span>
+            </span>
+            <span class="hero__coupleAmp" data-reveal>&amp;</span>
+            <span data-reveal>
+              <span class="hero__coupleName">Muhammad Irfan Hakim</span>
+              <span class="hero__coupleSub">Mohamed Fadly</span>
+            </span>
+          </h2>
+
+          <div class="hero__spacer"></div>
+
+          <div class="hero__details" data-reveal>
+            <p class="hero__detail"><strong>Tempat</strong><br />Villa Busainna Hall</p>
+            <p class="hero__detail"><strong>Tarikh</strong><br /> Sabtu, 23 Mei 2026</p>
+            <p class="hero__detail"><strong>Waktu</strong><br />11:00 pagi - 4:00 petang</p>
+          </div>
+
+          <div class="hero__details" data-reveal>
+            <p class="section__title"><strong>Atur Cara Majlis</strong></p>
+            <p class="hero__schedule"><strong>Kehadiran Tetamu:</strong><br />11:00 pagi</p>
+            <p class="hero__schedule"><strong>Ketibaan Pengantin:</strong><br /> 12:30 tengah hari</p>
+            <p class="hero__schedule"><strong>Majlis Berakhir:</strong><br />4:00 petang</p>
+          </div>
+
+          <div class="hero__spacer"></div>
+          <div class="hero__spacer"></div>
+
+          <div class="countdown" data-reveal aria-label="Countdown majlis">
+            <h3 class="countdown__title">Menanti Hari</h3>
+            <div class="countdown__cols" role="group" aria-label="Kiraan masa">
+              <div class="countdown__col" aria-label="Hari">
+                <span class="countdown__value" id="cdDays">0</span>
+                <span class="countdown__labelItem" aria-hidden="true">HARI</span>
+              </div>
+              <div class="countdown__col" aria-label="Jam">
+                <span class="countdown__value" id="cdHours">00</span>
+                <span class="countdown__labelItem" aria-hidden="true">JAM</span>
+              </div>
+              <div class="countdown__col" aria-label="Minit">
+                <span class="countdown__value" id="cdMins">00</span>
+                <span class="countdown__labelItem" aria-hidden="true">MINIT</span>
+              </div>
+              <div class="countdown__col" aria-label="Saat">
+                <span class="countdown__value" id="cdSecs">00</span>
+                <span class="countdown__labelItem" aria-hidden="true">SAAT</span>
+              </div>
+            </div>
+          </div>
+
+    <section class="section ucapan" id="ucapan" aria-label="Ucapan">
+      <div class="container">
+        <div class="ucapan__actions">
+            <button class="ucapan__btn" id="openRsvpFromUcapan" type="button">Sahkan Kehadiran</button>
+          </div>
+        <div class="card ucapan__card" data-reveal>
+          <h2 class="ucapan__title">UCAPAN</h2>
+
+          <div class="ucapan__list" id="ucapanList" aria-label="Senarai ucapan"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hero__doa" data-reveal aria-label="Doa">
+            <p class="hero__salam" data-reveal>بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            <p class="hero__doaText">Ya Allah Ya Rahman Ya Rahim,<br>Engkau berkatilah majlis ini dan satukanlah hati</p>
+              <div class="hero__spacer"></div>
+              <span class="doa__name">Iman Sarah &amp; Irfan Hakim</span>
+              <div class="hero__spacer"></div>
+            <p class="hero__doaText">dengan Iman, Keyakinan dan Tawakal kepadaMu. Panjangkan umur mereka, lapangkan rezeki mereka, dekatkanlah mereka menuju kebaikan, jauhkanlah mereka dari keburukan, kurniakanlah mereka zuriat yang soleh dan solehah, serta berikanlah ketenangan kepada mereka di dunia dan akhirat.</p>
+            <p class="hero__salam" data-reveal>ﺁﻣِﻴْﻦُ ﻳَﺎ ﺭَﺏَّ ﺍﻟْﻌَﺎﻟَﻤِﻴْﻦَ</p>
+            <p class="hero__tag">#HakimtheonliMan</p>
+          </div>
+
+          <div class="hero__carousel" data-reveal aria-label="Galeri foto">
+            <div class="hero__carouselTrack" role="group" aria-label="Foto boleh diseret kiri dan kanan">
+              <div class="hero__carouselItem" style="background-image:url('assets/img/Gambar1.jpeg')"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  </main>
+
+  <div class="fxOverlay" aria-hidden="true"></div>
+
+  <div class="sparkleLayer" id="sparkleLayer"></div>
+
+  <div class="ucapanModal" id="ucapanModal" aria-hidden="true" role="dialog" aria-label="Tulis ucapan">
+    <div class="ucapanModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="ucapanModal__panel" role="document">
+      <button class="ucapanModal__close" id="ucapanClose" type="button" aria-label="Tutup">✕</button>
+      <h2 class="ucapanModal__title">UCAPAN</h2>
+      <p class="ucapanModal__names"> IMAN SARAH &amp; IRFAN HAKIM</p>
+
+      <form class="ucapanModal__form" id="ucapanForm" novalidate>
+        <label class="ucapanModal__label" for="ucapanName">Nama <span aria-hidden="true">*</span></label>
+        <input class="ucapanModal__input" id="ucapanName" name="name" type="text" autocomplete="name" required />
+
+        <label class="ucapanModal__label" for="ucapanPhone">Nombor Telefon</label>
+        <input class="ucapanModal__input" id="ucapanPhone" name="phone" type="tel" autocomplete="tel" />
+
+        <label class="ucapanModal__label" for="ucapanKategori">Kategori Tetamu</label>
+        <select class="ucapanModal__select" id="ucapanKategori" name="kategori">
+          <option value="">Pilih kategori</option>
+          <option value="Keluarga Pengantin Perempuan">Keluarga Pengantin Perempuan</option>
+          <option value="Keluarga Pengantin Lelaki">Keluarga Pengantin Lelaki</option>
+          <option value="Kawan Pengantin Perempuan">Kawan Pengantin Perempuan</option>
+          <option value="Kawan Pengantin Lelaki">Kawan Pengantin Lelaki</option>
+          <option value="Kawan Ahli Keluarga">Kawan Ahli Keluarga</option>
+          <option value="Jiran">Jiran</option>
+        </select>
+
+        <label class="ucapanModal__label" for="ucapanText">Ucapan <span aria-hidden="true">*</span></label>
+        <textarea class="ucapanModal__textarea" id="ucapanText" name="text" rows="4" required></textarea>
+
+        <button class="ucapanModal__submit" type="submit">Hantar</button>
+        <p class="ucapanModal__note" id="ucapanNote" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="rsvpModal" id="rsvpModal" aria-hidden="true" role="dialog" aria-label="RSVP">
+    <div class="rsvpModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="rsvpModal__panel" role="document">
+      <button class="rsvpModal__close" id="rsvpClose" type="button" aria-label="Tutup">✕</button>
+
+      <div class="rsvpModal__step rsvpModal__step--choose" id="rsvpStepChoose">
+        <h2 class="rsvpModal__title">RSVP &amp; UCAPAN</h2>
+        <div class="rsvpModal__choices" role="group" aria-label="Pilihan RSVP">
+          <button class="rsvpModal__choice" id="rsvpChooseHadir" type="button">
+            <span class="rsvpModal__choiceIcon" aria-hidden="true">✓</span>
+            <span>Hadir</span>
+          </button>
+          <button class="rsvpModal__choice" id="rsvpChooseTidak" type="button">
+            <span class="rsvpModal__choiceIcon" aria-hidden="true">✕</span>
+            <span>Tidak Hadir</span>
+            
+          </button>
+        </div>
+      </div>
+
+      <div class="rsvpModal__step rsvpModal__step--form" id="rsvpStepForm" hidden>
+        <h2 class="rsvpModal__title">RSVP &amp; UCAPAN</h2>
+
+        <form class="rsvpModal__form" id="rsvpForm" novalidate>
+          <input id="rsvpAttendance" name="attendance" type="hidden" value="" />
+
+          <label class="rsvpModal__label" for="rsvpName">Nama <span aria-hidden="true">*</span></label>
+          <input class="rsvpModal__input" id="rsvpName" name="name" type="text" autocomplete="name" required />
+
+          <label class="rsvpModal__label" for="rsvpPhone">Nombor Telefon</label>
+          <input class="rsvpModal__input" id="rsvpPhone" name="phone" type="tel" autocomplete="tel" />
+
+          <label class="rsvpModal__label" for="rsvpKategori">Kategori Tetamu</label>
+          <select class="rsvpModal__select" id="rsvpKategori" name="kategori">
+            <option value="">Pilih kategori</option>
+            <option value="Keluarga Pengantin Perempuan">Keluarga Pengantin Perempuan</option>
+            <option value="Keluarga Pengantin Lelaki">Keluarga Pengantin Lelaki</option>
+            <option value="Kawan Pengantin Perempuan">Kawan Pengantin Perempuan</option>
+            <option value="Kawan Pengantin Lelaki">Kawan Pengantin Lelaki</option>
+            <option value="Kawan Ahli Keluarga">Kawan Ahli Keluarga</option>
+            <option value="Jiran">Jiran</option>
+          </select>
+
+          <div class="rsvpModal__pax" id="rsvpPaxWrap">
+            <label class="rsvpModal__label" for="rsvpPax">Jumlah Kehadiran (Termasuk wakil)</label>
+            <select class="rsvpModal__select" id="rsvpPax" name="pax">
+              <option value="1">1 orang</option>
+              <option value="2">2 orang</option>
+              <option value="3">3 orang</option>
+            </select>
+          </div>
+
+          <label class="rsvpModal__label" for="rsvpWish">Ucapan</label>
+          <textarea class="rsvpModal__textarea" id="rsvpWish" name="wish" rows="4"></textarea>
+
+          <div class="rsvpModal__actions">
+            <button class="rsvpModal__submit" type="submit">Hantar</button>
+            <button class="rsvpModal__cancel" id="rsvpCancel" type="button">Batal</button>
+          </div>
+          <p class="rsvpModal__note" id="rsvpNote" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="noticeModal" id="noticeModal" aria-hidden="true" role="dialog" aria-label="Sila Baca">
+    <div class="noticeModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="noticeModal__panel" role="document">
+      <h2 class="noticeModal__title"><strong>Sila Baca</strong></h2>
+      <p class="noticeModal__text">Mohon hanya seorang wakil daripada setiap keluarga atau pasangan yang mengisi RSVP ini. Terima kasih atas kerjasama anda.</p>
+      <button class="noticeModal__ok" id="noticeOk" type="button">OK</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="rsvpModal" id="successModal" aria-hidden="true" role="dialog" aria-label="Berjaya">
+    <div class="rsvpModal__backdrop"></div>
+    <div class="rsvpModal__panel" role="document" style="text-align:center;padding:40px 30px">
+      <div style="font-size:4rem;margin-bottom:15px">✓</div>
+      <h2 class="rsvpModal__title" style="margin-bottom:15px">Berjaya Dihantar!</h2>
+      <p class="muted" style="margin-bottom:25px">Terima kasih atas respons anda.</p>
+      <button class="rsvpModal__submit" id="btnCloseSuccess" type="button">OK</button>
+    </div>
+  </div>
+
+  <div class="giftModal" id="giftModal" aria-hidden="true" role="dialog" aria-label="Hadiah">
+    <div class="giftModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="giftModal__panel" role="document">
+      <button class="giftModal__close" id="giftClose" type="button" aria-label="Tutup">✕</button>
+
+      <div class="giftModal__bank" aria-label="Bank">
+        <div class="giftModal__bankLogo" aria-hidden="true"></div>
+        <div class="giftModal__bankName">Maybank</div>
+      </div>
+
+      <div class="giftModal__qrWrap" aria-label="QR">
+        <img class="giftModal__qr" src="assets/img/QRKahwin.jpg" alt="QR" />
+      </div>
+
+      <div class="giftModal__name">Iman Sarah Binti Ahmad Nasaruddin</div>
+
+      <p class="giftModal__note" id="giftNote" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="contactModal" id="contactModal" aria-hidden="true" role="dialog" aria-label="Hubungi">
+    <div class="contactModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="contactModal__panel" role="document">
+      <button class="contactModal__close" id="contactClose" type="button" aria-label="Tutup">✕</button>
+      <h2 class="contactModal__title">HUBUNGI</h2>
+
+      <div class="contactModal__list" role="list" aria-label="Senarai hubungi">
+        <div class="contactModal__row" role="listitem">
+          <div class="contactModal__who">
+            <div class="contactModal__name">En. Ahmad</div>
+            <div class="contactModal__meta">Abah</div>
+          </div>
+          <div class="contactModal__actions" aria-label="Tindakan">
+            <a class="contactModal__iconBtn" href="https://wa.me/60136028062" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp En. Ahmad">
+              <img class="contactModal__icon" src="assets/img/WHATSAPP.png" alt="" aria-hidden="true" />
+            </a>
+            <a class="contactModal__iconBtn" href="tel:0136028062" aria-label="Telefon En. Ahmad">
+              <img class="contactModal__icon" src="assets/img/PHONE.png" alt="" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+
+        <div class="contactModal__row" role="listitem">
+          <div class="contactModal__who">
+            <div class="contactModal__name">Pn. Norsilawati</div>
+            <div class="contactModal__meta">Umi</div>
+          </div>
+          <div class="contactModal__actions" aria-label="Tindakan">
+            <a class="contactModal__iconBtn" href="https://wa.me/60193901173" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Pn Norsilawati">
+              <img class="contactModal__icon" src="assets/img/WHATSAPP.png" alt="" aria-hidden="true" />
+            </a>
+            <a class="contactModal__iconBtn" href="tel:0193901173" aria-label="Telefon Pn Norsilawati">
+              <img class="contactModal__icon" src="assets/img/PHONE.png" alt="" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+
+        <div class="contactModal__row" role="listitem">
+          <div class="contactModal__who">
+            <div class="contactModal__name">Arissa</div>
+            <div class="contactModal__meta">Adik</div>
+          </div>
+          <div class="contactModal__actions" aria-label="Tindakan">
+            <a class="contactModal__iconBtn" href="https://wa.me/601161374944" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Arissa">
+              <img class="contactModal__icon" src="assets/img/WHATSAPP.png" alt="" aria-hidden="true" />
+            </a>
+            <a class="contactModal__iconBtn" href="tel:01161374944" aria-label="Telefon Arissa">
+              <img class="contactModal__icon" src="assets/img/PHONE.png" alt="" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="locModal" id="locModal" aria-hidden="true" role="dialog" aria-label="Lokasi">
+    <div class="locModal__backdrop" data-close="true" aria-hidden="true"></div>
+    <div class="locModal__panel" role="document">
+      <button class="locModal__close" id="locClose" type="button" aria-label="Tutup">✕</button>
+      <h2 class="locModal__title">LOKASI</h2>
+      <p class="locModal__place">Villa Busainna Wedding Hall</p>
+      <p class="locModal__addr">Level 1, Nadayu 63, Jalan Melawati 8, Taman Nadayu, Taman Melawati, 68000, Selangor</p>
+      <div class="locModal__options" role="group" aria-label="Buka lokasi">
+        <a class="locModal__opt" href="https://waze.com/ul?q=Villa%20Busainna%20Wedding%20Hall%2C%20Level%201%2C%20Nadayu%2063%2C%20Jalan%20Melawati%208%2C%20Taman%20Nadayu%2C%20Taman%20Melawati%2C%2068000%2C%20Selangor&navigate=yes" target="_blank" rel="noopener noreferrer" aria-label="Buka Waze">
+          <img class="locModal__logo" src="assets/img/waze.png" alt="Waze" />
+          <span class="locModal__optText">Waze</span>
+        </a>
+        <a class="locModal__opt" href="https://www.google.com/maps/search/?api=1&query=Villa%20Busainna%20Wedding%20Hall%2C%20Level%201%2C%20Nadayu%2063%2C%20Jalan%20Melawati%208%2C%20Taman%20Nadayu%2C%20Taman%20Melawati%2C%2068000%2C%20Selangor" target="_blank" rel="noopener noreferrer" aria-label="Buka Google Maps">
+          <img class="locModal__logo" src="assets/img/google-maps.png" alt="Maps" />
+          <span class="locModal__optText">Maps</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottomnav" id="bottomnav" aria-label="Menu">
+    <button class="bottomnav__btn" id="openContact" type="button" aria-label="Hubungi">
+      <img class="bottomnav__icon" src="assets/img/PHONE.png" alt="" aria-hidden="true" />
+    </button>
+
+    <button class="bottomnav__btn" id="musicToggle" type="button" aria-label="Main atau henti muzik">
+      <img class="bottomnav__icon" src="assets/img/PLAY.png" alt="" aria-hidden="true" />
+    </button>
+
+    <button class="bottomnav__btn" id="openLocation" type="button" aria-label="Lokasi">
+      <img class="bottomnav__icon" src="assets/img/PIN.png" alt="" aria-hidden="true" />
+    </button>
+
+    <button class="bottomnav__btn" id="openGift" type="button" aria-label="Hadiah">
+      <img class="bottomnav__icon" src="assets/img/GIFT.png" alt="" aria-hidden="true" />
+    </button>
+    
+    <button class="bottomnav__btn" id="openRsvp" type="button" aria-label="RSVP">
+      <img class="bottomnav__icon" src="assets/img/RSVP.png" alt="" aria-hidden="true" />
+    </button>
+  </nav>
+
+  <audio id="bgMusic" preload="none" loop>
+    <source src="assets/audio/Bernaung.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+</html>

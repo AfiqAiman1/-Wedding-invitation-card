@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSVP Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --maroon:#5c0e0c;
+      --maroon-2:#7b1a17;
+      --burgundy:#3a0b12;
+      --burgundy-2:#5c0e0c;
+      --cream:#f7f1ee;
+      --card:rgba(10,10,14,.55);
+      --stroke:rgba(255,255,255,.12);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.78);
+      --shadow:0 22px 70px rgba(0,0,0,.55);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"EB Garamond", serif;
+      background:
+        linear-gradient(rgba(58,11,18,.78), rgba(58,11,18,.78)),
+        url("assets/img/RSVPbg.jpg");
+      background-size:cover;
+      background-position:center;
+      min-height:100vh;
+      color:var(--text);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:18px 16px 44px}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+    .topbar__left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.25);
+      color:#fff;
+      text-decoration:none;
+      font-family:"Cinzel",serif;
+      letter-spacing:.06em;
+      font-size:.82rem;
+    }
+    .topPill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.22);
+      font-family:"Cinzel",serif;
+      letter-spacing:.06em;
+      font-size:.74rem;
+      color:var(--muted);
+    }
+    .dot{width:8px;height:8px;border-radius:999px;background:#fff;opacity:.8}
+    .dot.is-on{background:#2cff7a;box-shadow:0 0 0 4px rgba(44,255,122,.15)}
+    .topbar__right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .clockPill{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.22);
+      color:var(--muted);
+      font-family:"Cinzel",serif;
+      letter-spacing:.06em;
+      font-size:.74rem;
+      white-space:nowrap;
+    }
+
+    .stats{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:12px;margin:12px 0 14px}
+    .stat{
+      border:1px solid var(--stroke);
+      background:var(--card);
+      border-radius:18px;
+      padding:14px 14px;
+      box-shadow:0 12px 34px rgba(0,0,0,.45);
+    }
+    .stat b{display:block;font-family:"Cinzel",serif;letter-spacing:.08em;font-size:.78rem;color:var(--muted)}
+    .stat span{display:block;font-size:2rem;line-height:1.1;margin-top:8px;font-weight:600}
+    .stat small{display:block;margin-top:6px;color:var(--muted);font-size:.92rem}
+
+    .card{
+      border:1px solid var(--stroke);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .controls{
+      display:flex;
+      gap:10px;
+      padding:12px;
+      border-bottom:1px solid var(--stroke);
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.55);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      font-size:.82rem;
+    }
+    .btn:hover{background:rgba(255,255,255,.12)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .input{
+      border:1px solid rgba(255,255,255,.55);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border-radius:14px;
+      padding:10px 12px;
+      min-width:240px;
+      outline:none;
+    }
+    .tableWrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:900px}
+    th,td{padding:12px 12px;border-bottom:1px solid rgba(255,255,255,.18);vertical-align:top}
+    th{
+      text-align:left;
+      font-family:"Cinzel",serif;
+      letter-spacing:.10em;
+      font-size:.78rem;
+      color:var(--muted);
+      background:rgba(0,0,0,.10);
+      position:sticky;
+      top:0;
+      z-index:1;
+    }
+    td{font-size:1rem}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.38);
+      background:rgba(0,0,0,.18);
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      font-size:.75rem;
+      white-space:nowrap;
+    }
+    .badge--hadir{background:rgba(44,255,122,.12);border-color:rgba(44,255,122,.22);color:#baffd0}
+    .badge--tidak{background:rgba(255,120,120,.10);border-color:rgba(255,120,120,.18);color:#ffd3d3}
+    .muted{color:var(--muted)}
+    .note{padding:12px;color:var(--muted)}
+    .danger{color:#ffd1d1}
+    .sectionTitle{padding:14px 12px 8px;font-family:"Cinzel",serif;letter-spacing:.10em;font-size:.78rem;color:var(--muted)}
+    @media (max-width:520px){
+      .stats{grid-template-columns:repeat(2, minmax(0, 1fr))}
+      .input{min-width:100%}
+    }
+    @media (max-width:860px){
+      .stats{grid-template-columns:repeat(2, minmax(0, 1fr))}
+      table{min-width:760px}
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      background:rgba(0,0,0,.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .modal[hidden]{display:none}
+    .modal__panel{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:26px;
+      padding:24px 20px;
+      width:min(100%,400px);
+      box-shadow:var(--shadow);
+    }
+    .modal__title{
+      margin:0 0 18px;
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      font-size:1.1rem;
+      color:#fff;
+    }
+    .modal__field{
+      margin-bottom:14px;
+    }
+    .modal__label{
+      display:block;
+      margin-bottom:6px;
+      font-family:"Cinzel",serif;
+      letter-spacing:.06em;
+      font-size:.85rem;
+      color:var(--muted);
+    }
+    .modal__input{
+      width:100%;
+      border:1px solid rgba(255,255,255,.55);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:1rem;
+      outline:none;
+    }
+    .modal__input:focus{border-color:rgba(255,255,255,.8)}
+    .modal__actions{
+      display:flex;
+      gap:10px;
+      margin-top:20px;
+    }
+    .modal__actions .btn{flex:1}
+    .btn--small{padding:6px 10px;font-size:.75rem}
+    .badge--duplicate{background:rgba(255,200,50,.12);border-color:rgba(255,200,50,.25);color:#ffe5a0}
+    .duplicate-note{padding:10px 12px;margin:10px 0 0;background:rgba(255,200,50,.08);border-radius:10px;font-size:.9rem;color:#ffe5a0}
+    #editPaxModal{z-index:300}
+    #successModal{z-index:300}
+    #filterKategori{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:10px 12px;font-size:1rem;outline:none;cursor:pointer}
+    #filterKategori option{background:#2a1a1a;color:#fff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="topbar__left">
+        <a class="back" href="index.html" aria-label="Kembali ke Kad">⬅ Kembali ke Kad</a>
+        <button class="topPill" id="btnRealtime" type="button" aria-label="Realtime">
+          <span class="dot" id="dotRealtime" aria-hidden="true"></span>
+          Realtime
+        </button>
+      </div>
+      <div class="topbar__right">
+        <span class="clockPill" id="lastSync">Kemas kini: -</span>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Statistik">
+      <div class="stat"><b>Jumlah RSVP</b><span id="statTotal">0</span></div>
+      <div class="stat"><b>Hadir (Total orang)</b><span id="statPax">0</span><small>Jumlah orang</small></div>
+      <div class="stat"><b>Tidak Hadir</b><span id="statTidak">0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">Senarai Terkini</div>
+      <div class="controls">
+        <button class="btn" id="btnRefresh" type="button">Refresh</button>
+        <button class="btn" id="btnExportExcel" type="button">Export Excel</button>
+        <button class="btn" id="btnPrint" type="button">Print</button>
+        <select class="input" id="filterKategori" style="width:auto;min-width:180px">
+          <option value="">Semua Kategori</option>
+          <option value="Keluarga Pengantin Perempuan">Keluarga Pengantin Perempuan</option>
+          <option value="Keluarga Pengantin Lelaki">Keluarga Pengantin Lelaki</option>
+          <option value="Kawan Pengantin Perempuan">Kawan Pengantin Perempuan</option>
+          <option value="Kawan Pengantin Lelaki">Kawan Pengantin Lelaki</option>
+          <option value="Tetamu">Tetamu</option>
+          <option value="Jiran">Jiran</option>
+        </select>
+        <span class="muted" id="status"></span>
+        <button class="btn" id="btnEditDuplicate" type="button" style="margin-left:auto" hidden>Edit Duplicate</button>
+        <button class="btn" id="btnEditList" type="button" style="margin-left:auto">Edit List</button>
+      </div>
+
+      <div class="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tarikh</th>
+              <th>Nama</th>
+              <th>Status</th>
+              <th>Pax</th>
+              <th>Telefon</th>
+              <th>Kategori Tetamu</th>
+              <th>Ucapan</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="note" id="note"></div>
+    </div>
+
+    <!-- Edit Pax Modal -->
+    <div class="modal" id="editPaxModal" hidden>
+      <div class="modal__panel">
+        <h3 class="modal__title">Edit Pax: <span id="editGuestName"></span></h3>
+        <div class="modal__field">
+          <label class="modal__label" for="newPax">Jumlah Pax</label>
+          <input class="modal__input" id="newPax" type="number" min="1" max="10" value="1">
+        </div>
+        <div class="modal__actions">
+          <button class="btn" id="btnSavePax">Simpan</button>
+          <button class="btn" id="btnCancelPax">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal" hidden>
+      <div class="modal__panel" style="text-align:center;padding:30px 20px">
+        <div style="font-size:3rem;margin-bottom:10px">✓</div>
+        <h3 class="modal__title" style="margin-bottom:10px">Berjaya Disimpan!</h3>
+        <p class="muted" id="successMessage">Pax berjaya dikemaskini.</p>
+        <div class="modal__actions" style="justify-content:center;margin-top:20px">
+          <button class="btn" id="btnCloseSuccess">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit List Modal -->
+    <div class="modal" id="editListModal" hidden>
+      <div class="modal__panel" style="width:min(100%,900px);max-height:85vh;display:flex;flex-direction:column">
+        <h3 class="modal__title">Edit List</h3>
+        <div class="tableWrap" style="flex:1;overflow:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Status</th>
+                <th>Telefon</th>
+                <th>Kategori Tetamu</th>
+                <th>Pax</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="editListRows"></tbody>
+          </table>
+        </div>
+        <div class="modal__actions">
+          <button class="btn" id="btnCloseEditList">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Modal -->
+    <div class="modal" id="printModal" hidden>
+      <div class="modal__panel" style="width:min(100%,900px);max-height:85vh;display:flex;flex-direction:column">
+        <h3 class="modal__title">Senarai Tetamu</h3>
+        <div class="tableWrap" style="flex:1;overflow:auto">
+          <table id="printTable">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Status</th>
+                <th>Telefon</th>
+                <th>Kategori Tetamu</th>
+                <th>Pax</th>
+              </tr>
+            </thead>
+            <tbody id="printRows"></tbody>
+          </table>
+        </div>
+        <div class="modal__actions">
+          <button class="btn" id="btnDoPrint">Print</button>
+          <button class="btn" id="btnClosePrint">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Duplicate Modal -->
+    <div class="modal" id="editDuplicateModal" hidden>
+      <div class="modal__panel" style="width:min(100%,900px);max-height:85vh;display:flex;flex-direction:column">
+        <h3 class="modal__title">Edit Duplicate</h3>
+        <div class="tableWrap" style="flex:1;overflow:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Status</th>
+                <th>Telefon</th>
+                <th>Kategori Tetamu</th>
+                <th>Pax</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="editDuplicateRows"></tbody>
+          </table>
+        </div>
+        <div class="modal__actions">
+          <button class="btn" id="btnCloseEditDuplicate">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDceqvB3PplG4ie9CwuvMQgEnJHDQ8FQ8A",
+      authDomain: "wedding-card-7777.firebaseapp.com",
+      projectId: "wedding-card-7777",
+      storageBucket: "wedding-card-7777.firebasestorage.app",
+      messagingSenderId: "1046185480932",
+      appId: "1:1046185480932:web:98032b6e99af9603c692f1"
+    };
+
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const rowsEl = $('#rows');
+    const statusEl = $('#status');
+    const noteEl = $('#note');
+    const statTotal = $('#statTotal');
+    const statTidak = $('#statTidak');
+    const statPax = $('#statPax');
+    const lastSync = $('#lastSync');
+    const btnRealtime = $('#btnRealtime');
+    const dotRealtime = $('#dotRealtime');
+
+    const setText = (el, txt) => { if (el) el.textContent = String(txt); };
+    const esc = (s) => String(s ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let all = [];
+
+    const normalize = (s) => String(s || '').toLowerCase();
+
+    const toDisplayDate = (it) => {
+      const raw = it.at || '';
+      const d = raw ? new Date(raw) : null;
+      if (!d || Number.isNaN(d.getTime())) return '-';
+      return d.toLocaleString('ms-MY', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+    };
+
+    const recomputeStats = (items) => {
+      const rsvpOnly = items.filter(i => i.attendance === 'hadir' || i.attendance === 'tidak_hadir');
+      const jumlahRsvp = rsvpOnly.length;
+      const hadir = rsvpOnly.filter(i => i.attendance === 'hadir').reduce((sum,i) => sum + (Number(i.pax)||0), 0);
+      const tidak = rsvpOnly.filter(i => i.attendance === 'tidak_hadir').reduce((sum,i) => sum + (Number(i.pax)||0), 0);
+      setText(statTotal, jumlahRsvp);
+      setText(statPax, hadir);
+      setText(statTidak, tidak);
+    };
+
+    const render = (items) => {
+      recomputeStats(items);
+      if (!items.length) {
+        rowsEl.innerHTML = '';
+        setText(noteEl, 'Tiada data untuk dipaparkan.');
+        return;
+      }
+
+      // Detect duplicates
+      const duplicates = detectDuplicates(items);
+      const duplicateIds = new Set(duplicates.flatMap(d => [d[0].id, d[1].id]));
+      
+      // Show/hide Edit Duplicate button
+      const editDupBtn = document.getElementById('btnEditDuplicate');
+      if (editDupBtn) {
+        editDupBtn.hidden = duplicates.length === 0;
+      }
+
+      setText(noteEl, '');
+      rowsEl.innerHTML = items.map(it => {
+        const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
+        const badgeCls = !hasAttendance
+          ? 'badge'
+          : (it.attendance === 'hadir' ? 'badge badge--hadir' : 'badge badge--tidak');
+        const badgeText = !hasAttendance ? '-' : (it.attendance === 'hadir' ? 'Hadir' : 'Tidak Hadir');
+        const pax = !hasAttendance ? '-' : (it.attendance === 'tidak_hadir' ? '-' : (it.pax || 1));
+        const isDuplicate = duplicateIds.has(it.id);
+        const paxDisplay = it.paxEdited ? `${it.pax}*` : (it.pax || '-');
+        
+        return `
+          <tr class="${isDuplicate ? 'row--duplicate' : ''}">
+            <td class="muted">${esc(toDisplayDate(it))}</td>
+            <td>${esc(it.name || '')}${isDuplicate ? ' <span class="badge badge--duplicate">Duplicate</span>' : ''}</td>
+            <td><span class="${badgeCls}">${esc(badgeText)}</span></td>
+            <td>${esc(paxDisplay)}</td>
+            <td class="muted">${esc(it.phone || '')}</td>
+            <td class="muted">${esc(it.kategori || '')}</td>
+            <td>${esc(it.wish || '')}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Show duplicate note if any
+      if (duplicates.length > 0) {
+        const dupNote = document.createElement('div');
+        dupNote.className = 'duplicate-note';
+        dupNote.innerHTML = `<strong>${duplicates.length}</strong> potential duplicate(s) detected based on same phone number.`;
+        noteEl.appendChild(dupNote);
+      }
+    };
+
+    // Detect duplicates based on same phone number only
+    const detectDuplicates = (items) => {
+      const duplicates = [];
+      const seen = new Map();
+
+      items.forEach(item => {
+        if (!item.phone) return;
+        
+        const phoneKey = normalize(item.phone).replace(/\D/g, '');
+        if (phoneKey.length < 4) return;
+        
+        // Check by exact phone match
+        for (const [key, existing] of seen.entries()) {
+          const existingPhone = normalize(existing.phone || '').replace(/\D/g, '');
+          
+          if (phoneKey === existingPhone) {
+            duplicates.push([existing, item]);
+            break;
+          }
+        }
+        
+        seen.set(item.id, item);
+      });
+      
+      return duplicates;
+    };
+
+    // Edit Pax functions
+    let currentEditId = null;
+
+    window.editPax = (guestId, currentPax, guestName) => {
+      currentEditId = guestId;
+      document.getElementById('editGuestName').textContent = guestName;
+      document.getElementById('newPax').value = currentPax;
+      document.getElementById('editPaxModal').hidden = false;
+    };
+
+    window.closeEditPaxModal = () => {
+      document.getElementById('editPaxModal').hidden = true;
+      currentEditId = null;
+    };
+
+    document.getElementById('btnCancelPax')?.addEventListener('click', closeEditPaxModal);
+    document.getElementById('editPaxModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'editPaxModal') closeEditPaxModal();
+    });
+
+    document.getElementById('btnSavePax')?.addEventListener('click', async () => {
+      const btnSavePax = document.getElementById('btnSavePax');
+      const newPax = Number(document.getElementById('newPax').value);
+
+      if (!newPax || newPax < 1) {
+        alert('Sila masukkan jumlah pax yang sah');
+        return;
+      }
+
+      // Disable button to prevent double click
+      btnSavePax.disabled = true;
+      btnSavePax.textContent = 'Menyimpan...';
+
+      try {
+        await db.collection('rsvps').doc(currentEditId).update({
+          pax: newPax,
+          paxEdited: true,
+          paxEditAt: new Date(),
+          paxEditBy: 'admin'
+        });
+
+        await fetchData();
+        closeEditPaxModal();
+        
+        // Refresh Edit List if it's open
+        if (document.getElementById('editListModal') && !document.getElementById('editListModal').hidden) {
+          openEditListModal();
+        }
+        
+        // Show success modal
+        document.getElementById('successMessage').textContent = 'Pax berjaya dikemaskini!';
+        document.getElementById('successModal').hidden = false;
+      } catch (error) {
+        console.error('Error updating pax:', error);
+        alert('Gagal mengemaskini pax. Sila cuba lagi.');
+      } finally {
+        btnSavePax.disabled = false;
+        btnSavePax.textContent = 'Simpan';
+      }
+    });
+
+    // Success modal functions
+    document.getElementById('btnCloseSuccess')?.addEventListener('click', () => {
+      document.getElementById('successModal').hidden = true;
+    });
+    document.getElementById('successModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'successModal') document.getElementById('successModal').hidden = true;
+    });
+
+    // Edit List Modal functions
+    const openEditListModal = () => {
+      const editListRows = document.getElementById('editListRows');
+      
+      editListRows.innerHTML = all.map(it => {
+        const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
+        const badgeCls = !hasAttendance
+          ? 'badge'
+          : (it.attendance === 'hadir' ? 'badge badge--hadir' : 'badge badge--tidak');
+        const badgeText = !hasAttendance ? '-' : (it.attendance === 'hadir' ? 'Hadir' : 'Tidak Hadir');
+        const pax = !hasAttendance ? '-' : (it.attendance === 'tidak_hadir' ? '-' : (it.pax || 1));
+        
+        return `
+          <tr>
+            <td>${esc(it.name || '')}</td>
+            <td><span class="${badgeCls}">${esc(badgeText)}</span></td>
+            <td class="muted">${esc(it.phone || '')}</td>
+            <td class="muted">${esc(it.kategori || '')}</td>
+            <td>${esc(pax)}</td>
+            <td>
+              ${hasAttendance && it.attendance !== 'tidak_hadir' ? `<button class="btn btn--small" onclick="editPax('${it.id}', ${it.pax || 1}, '${esc(it.name || '').replace(/'/g, "\\'")}')">Edit</button>` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+      document.getElementById('editListModal').hidden = false;
+    };
+
+    const closeEditListModal = () => {
+      document.getElementById('editListModal').hidden = true;
+    };
+
+    document.getElementById('btnEditList')?.addEventListener('click', openEditListModal);
+    document.getElementById('btnCloseEditList')?.addEventListener('click', closeEditListModal);
+    document.getElementById('editListModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'editListModal') closeEditListModal();
+    });
+
+    // Export to Excel
+    document.getElementById('btnExportExcel')?.addEventListener('click', () => {
+      const headers = ['Nama', 'Status', 'Telefon', 'Kategori Tetamu', 'Pax'];
+      
+      let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<style>
+table{border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:12px}
+th,td{border:1px solid #000;padding:8px;text-align:left}
+th{background:#5c0e0c;color:#fff;font-weight:bold}
+tr:nth-child(even){background:#f5f5f5}
+tr:hover{background:#e8f4f8}
+.status-hadir{background:#d4edda;color:#155724;padding:2px 6px;border-radius:3px}
+.status-tidak{background:#f8d7da;color:#721c24;padding:2px 6px;border-radius:3px}
+</style>
+</head><body>
+<table>
+<tr>
+${headers.map(h => `<th>${h}</th>`).join('')}
+</tr>
+${all.map(it => {
+  const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
+  const status = !hasAttendance ? '-' : (it.attendance === 'hadir' ? 'Hadir' : 'Tidak Hadir');
+  const statusClass = it.attendance === 'hadir' ? 'status-hadir' : (it.attendance === 'tidak_hadir' ? 'status-tidak' : '');
+  const pax = !hasAttendance ? '-' : (it.attendance === 'tidak_hadir' ? '-' : (it.pax || 1));
+  return `<tr>
+<td>${(it.name || '')}</td>
+<td><span class="${statusClass}">${status}</span></td>
+<td>${(it.phone || '')}</td>
+<td>${(it.kategori || '')}</td>
+<td>${pax}</td>
+</tr>`;
+}).join('')}
+</table></body></html>`;
+
+      const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `rsvp_list_${new Date().toISOString().split('T')[0]}.xls`;
+      link.click();
+    });
+
+    // Print functions
+    const openPrintModal = () => {
+      const printRows = document.getElementById('printRows');
+      printRows.innerHTML = all.map(it => {
+        const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
+        const badgeCls = !hasAttendance
+          ? 'badge'
+          : (it.attendance === 'hadir' ? 'badge badge--hadir' : 'badge badge--tidak');
+        const badgeText = !hasAttendance ? '-' : (it.attendance === 'hadir' ? 'Hadir' : 'Tidak Hadir');
+        const pax = !hasAttendance ? '-' : (it.attendance === 'tidak_hadir' ? '-' : (it.pax || 1));
+        
+        return `
+          <tr>
+            <td>${esc(it.name || '')}</td>
+            <td><span class="${badgeCls}">${esc(badgeText)}</span></td>
+            <td class="muted">${esc(it.phone || '')}</td>
+            <td class="muted">${esc(it.kategori || '')}</td>
+            <td>${esc(pax)}</td>
+          </tr>
+        `;
+      }).join('');
+      
+      document.getElementById('printModal').hidden = false;
+    };
+
+    const closePrintModal = () => {
+      document.getElementById('printModal').hidden = true;
+    };
+
+    const doPrint = () => {
+      const printContent = document.getElementById('printTable').outerHTML;
+      const win = window.open('', '', 'height=700,width=900');
+      win.document.write('<html><head><title>Senarai Tetamu</title>');
+      win.document.write('<style>body{font-family:Arial,sans-serif;padding:20px}table{width:100%;border-collapse:collapse;margin-top:20px}th,td{border:1px solid #000;padding:8px;text-align:left}th{background:#f0f0f0}.badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px}.badge--hadir{background:#d4edda;color:#155724}.badge--tidak{background:#f8d7da;color:#721c24}.muted{color:#666}</style>');
+      win.document.write('</head><body><h2>Senarai Tetamu</h2>');
+      win.document.write(printContent);
+      win.document.write('</body></html>');
+      win.document.close();
+      win.print();
+    };
+
+    document.getElementById('btnPrint')?.addEventListener('click', openPrintModal);
+    document.getElementById('btnDoPrint')?.addEventListener('click', doPrint);
+    document.getElementById('btnClosePrint')?.addEventListener('click', closePrintModal);
+    document.getElementById('printModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'printModal') closePrintModal();
+    });
+
+    // Edit Duplicate Modal functions
+    let currentDuplicates = [];
+
+    const openEditDuplicateModal = () => {
+      currentDuplicates = detectDuplicates(all);
+      const editDuplicateRows = document.getElementById('editDuplicateRows');
+      
+      // Get all duplicate items
+      const duplicateItems = currentDuplicates.flatMap(d => [d[0], d[1]]);
+      const uniqueDupIds = [...new Set(duplicateItems.map(it => it.id))];
+      const dupItems = all.filter(it => uniqueDupIds.includes(it.id));
+      
+      editDuplicateRows.innerHTML = dupItems.map(it => {
+        const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
+        const badgeCls = !hasAttendance
+          ? 'badge'
+          : (it.attendance === 'hadir' ? 'badge badge--hadir' : 'badge badge--tidak');
+        const badgeText = !hasAttendance ? '-' : (it.attendance === 'hadir' ? 'Hadir' : 'Tidak Hadir');
+        const pax = !hasAttendance ? '-' : (it.attendance === 'tidak_hadir' ? '-' : (it.pax || 1));
+        
+        return `
+          <tr>
+            <td>${esc(it.name || '')}</td>
+            <td><span class="${badgeCls}">${esc(badgeText)}</span></td>
+            <td class="muted">${esc(it.phone || '')}</td>
+            <td class="muted">${esc(it.kategori || '')}</td>
+            <td>${esc(pax)}</td>
+            <td>
+              <button class="btn btn--small" style="background:#dc3545" onclick="deleteGuest('${it.id}', '${esc(it.name || '').replace(/'/g, "\\'")}')">Padam</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+      document.getElementById('editDuplicateModal').hidden = false;
+    };
+
+    const closeEditDuplicateModal = () => {
+      document.getElementById('editDuplicateModal').hidden = true;
+    };
+
+    window.deleteGuest = async (guestId, guestName) => {
+      if (!confirm(`Adakah anda pasti ingin padam "${guestName}"?`)) return;
+      
+      try {
+        await db.collection('rsvps').doc(guestId).delete();
+        await fetchData();
+        
+        // Refresh duplicate modal if still open
+        if (document.getElementById('editDuplicateModal') && !document.getElementById('editDuplicateModal').hidden) {
+          openEditDuplicateModal();
+        }
+        
+        alert('Tetamu berjaya dipadam!');
+      } catch (error) {
+        console.error('Error deleting guest:', error);
+        alert('Gagal memadam tetamu. Sila cuba lagi.');
+      }
+    };
+
+    document.getElementById('btnEditDuplicate')?.addEventListener('click', openEditDuplicateModal);
+    document.getElementById('btnCloseEditDuplicate')?.addEventListener('click', closeEditDuplicateModal);
+    document.getElementById('editDuplicateModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'editDuplicateModal') closeEditDuplicateModal();
+    });
+
+    const applyFilter = () => {
+      const kategoriFilter = document.getElementById('filterKategori')?.value || '';
+      if (!kategoriFilter) {
+        render(all);
+        return;
+      }
+      const filtered = all.filter(it => it.kategori === kategoriFilter);
+      render(filtered);
+    };
+
+    const fetchData = async () => {
+      setText(statusEl, 'Loading...');
+      noteEl.classList.remove('danger');
+      setText(noteEl, '');
+      try {
+        const snap = await db.collection('rsvps').orderBy('createdAt','desc').limit(500).get();
+        all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        applyFilter();
+        setText(statusEl, '');
+        setText(lastSync, `Kemas kini: ${new Date().toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`);
+      } catch (e) {
+        setText(statusEl, '');
+        noteEl.classList.add('danger');
+        setText(noteEl, 'Gagal load data. Pastikan Firestore enabled dan rules betul.');
+      }
+    };
+
+    let unsubRealtime = null;
+    const stopRealtime = () => {
+      if (unsubRealtime) unsubRealtime();
+      unsubRealtime = null;
+      dotRealtime?.classList.remove('is-on');
+    };
+    const startRealtime = () => {
+      stopRealtime();
+      dotRealtime?.classList.add('is-on');
+      setText(statusEl, 'Realtime...');
+      noteEl.classList.remove('danger');
+      setText(noteEl, '');
+      unsubRealtime = db
+        .collection('rsvps')
+        .orderBy('createdAt','desc')
+        .limit(500)
+        .onSnapshot(
+          (snap) => {
+            all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            applyFilter();
+            setText(statusEl, 'Realtime');
+            setText(lastSync, `Kemas kini: ${new Date().toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`);
+          },
+          () => {
+            stopRealtime();
+            setText(statusEl, '');
+            noteEl.classList.add('danger');
+            setText(noteEl, 'Gagal realtime. Klik Refresh.');
+          }
+        );
+    };
+
+    $('#btnRefresh').addEventListener('click', fetchData);
+    document.getElementById('filterKategori')?.addEventListener('change', applyFilter);
+
+    btnRealtime?.addEventListener('click', () => {
+      if (unsubRealtime) {
+        stopRealtime();
+        setText(statusEl, '');
+        fetchData();
+      } else {
+        startRealtime();
+      }
+    });
+
+    fetchData();
+  </script>
+</body>
+</html>
