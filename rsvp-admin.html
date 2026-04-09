@@ -302,6 +302,18 @@
           <label class="modal__label" for="newPax">Jumlah Pax</label>
           <input class="modal__input" id="newPax" type="number" min="1" max="10" value="1">
         </div>
+        <div class="modal__field">
+          <label class="modal__label" for="newKategori">Kategori Tetamu</label>
+          <select class="modal__input" id="newKategori">
+            <option value="Keluarga Pengantin Perempuan">Keluarga Pengantin Perempuan</option>
+            <option value="Keluarga Pengantin Lelaki">Keluarga Pengantin Lelaki</option>
+            <option value="Kawan Pengantin Perempuan">Kawan Pengantin Perempuan</option>
+            <option value="Kawan Pengantin Lelaki">Kawan Pengantin Lelaki</option>
+            <option value="Kawan Ahli Keluarga">Kawan Ahli Keluarga</option>
+            <option value="Tetamu">Tetamu</option>
+            <option value="Jiran">Jiran</option>
+          </select>
+        </div>
         <div class="modal__actions">
           <button class="btn" id="btnSavePax">Simpan</button>
           <button class="btn" id="btnCancelPax">Batal</button>
@@ -323,7 +335,7 @@
 
     <!-- Edit List Modal -->
     <div class="modal" id="editListModal" hidden>
-      <div class="modal__panel" style="width:min(100%,900px);max-height:85vh;display:flex;flex-direction:column">
+      <div class="modal__panel" style="width:min(100%,1200px);max-height:85vh;display:flex;flex-direction:column">
         <h3 class="modal__title">Edit List</h3>
         <div class="tableWrap" style="flex:1;overflow:auto">
           <table>
@@ -348,8 +360,24 @@
 
     <!-- Print Modal -->
     <div class="modal" id="printModal" hidden>
-      <div class="modal__panel" style="width:min(100%,900px);max-height:85vh;display:flex;flex-direction:column">
+      <div class="modal__panel" style="width:min(100%,1200px);max-height:85vh;display:flex;flex-direction:column">
         <h3 class="modal__title">Senarai Tetamu</h3>
+        <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+          <select id="printFilterKategori" class="modal__input" style="max-width:220px;background:#2a1a1a;color:#fff">
+            <option value="">Semua Kategori</option>
+            <option value="Keluarga Pengantin Perempuan">Keluarga Pengantin Perempuan</option>
+            <option value="Keluarga Pengantin Lelaki">Keluarga Pengantin Lelaki</option>
+            <option value="Kawan Pengantin Perempuan">Kawan Pengantin Perempuan</option>
+            <option value="Kawan Pengantin Lelaki">Kawan Pengantin Lelaki</option>
+            <option value="Kawan Ahli Keluarga">Kawan Ahli Keluarga</option>
+            <option value="Tetamu">Tetamu</option>
+            <option value="Jiran">Jiran</option>
+          </select>
+          <select id="printSortKategori" class="modal__input" style="max-width:220px;background:#2a1a1a;color:#fff">
+            <option value="">Tiada Susunan</option>
+            <option value="kategori">Susun Mengikut Kategori</option>
+          </select>
+        </div>
         <div class="tableWrap" style="flex:1;overflow:auto">
           <table id="printTable">
             <thead>
@@ -528,10 +556,11 @@
     // Edit Pax functions
     let currentEditId = null;
 
-    window.editPax = (guestId, currentPax, guestName) => {
+    window.editPax = (guestId, currentPax, guestName, guestKategori) => {
       currentEditId = guestId;
       document.getElementById('editGuestName').textContent = guestName;
       document.getElementById('newPax').value = currentPax;
+      document.getElementById('newKategori').value = guestKategori || 'Tetamu';
       document.getElementById('editPaxModal').hidden = false;
     };
 
@@ -561,6 +590,7 @@
       try {
         await db.collection('rsvps').doc(currentEditId).update({
           pax: newPax,
+          kategori: document.getElementById('newKategori').value,
           paxEdited: true,
           paxEditAt: new Date(),
           paxEditBy: 'admin'
@@ -614,7 +644,7 @@
             <td class="muted">${esc(it.kategori || '')}</td>
             <td>${esc(pax)}</td>
             <td>
-              ${hasAttendance && it.attendance !== 'tidak_hadir' ? `<button class="btn btn--small" onclick="editPax('${it.id}', ${it.pax || 1}, '${esc(it.name || '').replace(/'/g, "\\'")}')">Edit</button>` : '-'}
+              ${hasAttendance && it.attendance !== 'tidak_hadir' ? `<button class="btn btn--small" onclick="editPax('${it.id}', ${it.pax || 1}, '${esc(it.name || '').replace(/'/g, "\\'")}', '${esc(it.kategori || '')}')">Edit</button>` : '-'}
             </td>
           </tr>
         `;
@@ -678,8 +708,35 @@ ${all.map(it => {
 
     // Print functions
     const openPrintModal = () => {
+      refreshPrintTable();
+      document.getElementById('printModal').hidden = false;
+    };
+
+    const refreshPrintTable = () => {
       const printRows = document.getElementById('printRows');
-      printRows.innerHTML = all.map(it => {
+      const filterKategori = document.getElementById('printFilterKategori').value;
+      const sortKategori = document.getElementById('printSortKategori').value;
+      
+      const kategoriOrder = {
+        'Keluarga Pengantin Perempuan': 1,
+        'Keluarga Pengantin Lelaki': 2,
+        'Kawan Pengantin Perempuan': 3,
+        'Kawan Pengantin Lelaki': 4,
+        'Kawan Ahli Keluarga': 5,
+        'Tetamu': 6,
+        'Jiran': 7
+      };
+      
+      let filtered = all.filter(it => {
+        if (!filterKategori) return true;
+        return it.kategori === filterKategori;
+      });
+      
+      if (sortKategori === 'kategori') {
+        filtered = [...filtered].sort((a, b) => (kategoriOrder[a.kategori] || 99) - (kategoriOrder[b.kategori] || 99));
+      }
+      
+      printRows.innerHTML = filtered.map(it => {
         const hasAttendance = it.attendance === 'hadir' || it.attendance === 'tidak_hadir';
         const badgeCls = !hasAttendance
           ? 'badge'
@@ -697,8 +754,6 @@ ${all.map(it => {
           </tr>
         `;
       }).join('');
-      
-      document.getElementById('printModal').hidden = false;
     };
 
     const closePrintModal = () => {
@@ -720,9 +775,8 @@ ${all.map(it => {
     document.getElementById('btnPrint')?.addEventListener('click', openPrintModal);
     document.getElementById('btnDoPrint')?.addEventListener('click', doPrint);
     document.getElementById('btnClosePrint')?.addEventListener('click', closePrintModal);
-    document.getElementById('printModal')?.addEventListener('click', (e) => {
-      if (e.target.id === 'printModal') closePrintModal();
-    });
+    document.getElementById('printFilterKategori')?.addEventListener('change', refreshPrintTable);
+    document.getElementById('printSortKategori')?.addEventListener('change', refreshPrintTable);
 
     // Edit Duplicate Modal functions
     let currentDuplicates = [];
